@@ -21112,12 +21112,17 @@ PrefabInstance:
     - target: {fileID: 4569353862538968957, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4972480517801441731, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.8127
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013099120196174402, guid: 0873f3e1998cac2488b126a07687163c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6013099120196174405, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
@@ -21187,12 +21192,12 @@ PrefabInstance:
     - target: {fileID: 6013099120239810212, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6013099120239810212, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6013099120239810212, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
@@ -21234,6 +21239,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6013099120239810215, guid: 0873f3e1998cac2488b126a07687163c,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6181078222700567734, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
       propertyPath: m_IsActive
@@ -21252,7 +21262,7 @@ PrefabInstance:
     - target: {fileID: 6323590527616569091, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6546549094517155465, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
