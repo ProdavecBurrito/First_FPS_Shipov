@@ -16,22 +16,41 @@ public class Bot : Unit
     bool grounded;
 
     float stopDistance = 0.1f;
-    float fireDistance = 10f;
+    float fireDistance = 6f;
     float persuingDistance = 3f;
 
     [SerializeField] List<Vector3> patrolPoints = new List<Vector3>();
     int wayCounter;
     
-    GameObject mainWayPoint;
+    [SerializeField] GameObject mainWayPoint; // Я не уверен, что это верный выход из такой ситуации (когда есть несколько путей)
 
     float timeToWait = 3f;
     float timeOut;
 
     [SerializeField] bool patrol;
     [SerializeField] bool shoot;
-    [SerializeField] bool aggressionMode;
+    [SerializeField] bool aggression;
+    [SerializeField] bool findPlayer;
 
     [SerializeField] List<Transform> visibleTargets = new List<Transform>();
+
+    [SerializeField] float maxAngle = 30;
+    [SerializeField] float maxRadius = 20;
+
+    [SerializeField] LayerMask targetMask;
+    [SerializeField] LayerMask obstacleMask;
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        // Поднятие точки регистрации на 1 юнит
+        Vector3 pos =VectorUp();
+        // Отрисовка арки
+        Handles.color = new Color(1, 0.5f, 0.5f, 0.5f);
+        Handles.DrawSolidArc(pos, Vector3.up, Vector3.forward, maxAngle, maxRadius);
+        Handles.DrawSolidArc(pos, Vector3.up, Vector3.forward, -maxAngle, maxRadius);
+    }
+#endif
 
     protected override void Awake()
     {
@@ -41,17 +60,36 @@ public class Bot : Unit
         agent.updatePosition = true;
         agent.updateRotation = true;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        mainWayPoint = FindObjectOfType<TracingWayPoints>().gameObject;// переделать
 
         foreach (Transform point in mainWayPoint.transform)
         {
             patrolPoints.Add(point.position);
         }
         patrol = true;
+
         agent.stoppingDistance = stopDistance;
+
+        StartCoroutine("FindTarget", 0.1f);
     }
     void Update()
     {
+        if (visibleTargets.Count > 0)
+        {
+            patrol = false;
+            target = visibleTargets[0];
+            aggression = true;
+            if (Vector3.Distance(Position, target.position) > maxRadius)
+            {
+                timeOut += Time.deltaTime;
+                if (timeOut > timeToWait)
+                {
+                    timeOut = 0;
+                    visibleTargets.Clear();
+                    patrol = true;
+                    aggression = false;
+                }
+            }
+        }
         if (agent)
         {
             if (IsDead)
@@ -95,14 +133,45 @@ public class Bot : Unit
                 }
                 else
                 {
-                    agent.SetDestination(playerTransform.position);
-                    agent.stoppingDistance = fireDistance;
+                    patrol = false;
+                    findPlayer = true;
                 }
             }
-            else
+            if (aggression)
             {
                 agent.stoppingDistance = fireDistance;
                 agent.SetDestination(target.position);
+                Vector3 pos = VectorUp();
+                Ray ray = new Ray(pos, transform.forward);
+                RaycastHit hit;
+                Debug.DrawRay(ray.origin, ray.direction, Color.red);
+                transform.LookAt(new Vector3(target.position.x, 0f, target.position.z));
+                if (Physics.Raycast(ray, out hit, 400f, targetMask))
+                {
+                    if (hit.collider.tag == "Player" && !shoot)
+                    {
+                        agent.ResetPath();
+                        Anim.SetTrigger("Shoot");
+                        shoot = true;
+                    }
+                    else
+                    {
+                        agent.stoppingDistance = persuingDistance;
+                        agent.SetDestination(target.position);
+                    }
+                }
+                else
+                {
+                    if (target)
+                    {
+                        agent.SetDestination(target.position);
+                    }
+                }
+            }
+            if (findPlayer)
+            {
+                agent.stoppingDistance = fireDistance;
+                agent.SetDestination(playerTransform.position);
             }
         }
     }
@@ -118,5 +187,42 @@ public class Bot : Unit
         {
             grounded = false;
         }
+    }
+
+    void FindVisibleTargets()
+    {
+        Collider[] targetInRange = Physics.OverlapSphere(Position, maxRadius, targetMask);
+        for (int i = 0; i < targetInRange.Length; i++)
+        {
+            Transform target = targetInRange[i].transform;
+            Vector3 dirToTarget = (target.position - Position).normalized;
+            float targetAngle = Vector3.Angle(transform.forward, dirToTarget);
+
+            if ((-maxAngle) < targetAngle && targetAngle < maxAngle)
+            {
+                float distToTarget = Vector3.Distance(Position, target.position);
+                if (!Physics.Raycast((VectorUp()), dirToTarget, obstacleMask))
+                {
+                    if (!visibleTargets.Contains(target))
+                    {
+                        visibleTargets.Add(target);
+                    }
+                }
+            }
+        }
+    }
+
+    IEnumerator FindTarget(float deley)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(deley);
+            FindVisibleTargets();
+        }
+    }
+
+    Vector3 VectorUp()
+    {
+        return transform.position + Vector3.up;
     }
 }
