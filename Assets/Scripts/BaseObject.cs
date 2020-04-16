@@ -30,7 +30,7 @@ public abstract class BaseObject : MonoBehaviour
     protected GameObject Instance { get => _instance;}
     protected Material Material { get => _material;}
     protected Camera MainCamera { get => _mainCamera;}
-    protected Animator Animator { get => _animator;}
+    protected Animator Anim { get => _animator;}
     protected Rigidbody RigBody { get => _rigBody;}
     protected Transform Transform { get => _transform;}
     protected string Name { get => _name; set => _name = value; }

@@ -44,7 +44,7 @@ public class Gun : BaseWeapon
         if (Input.GetKeyDown(reload) && ammo != maxMag)
         {
             fire = false;
-            Animator.SetTrigger("Reload");
+            Anim.SetTrigger("Reload");
             //_audio.PlayOneShot(gunSound[1]);
         }
     }
@@ -55,7 +55,7 @@ public class Gun : BaseWeapon
         {
             muzzleFlash.Play();
             ammo--;
-            Animator.SetTrigger("Shoot");
+            Anim.SetTrigger("Shoot");
             //_audio.PlayOneShot(gunSound[0]);
             // Для стрельбы префабами
             if (pref)
