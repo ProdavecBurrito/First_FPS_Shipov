@@ -13,6 +13,11 @@ public class SinglePlayer : Unit
     RaycastHit Hit;
     Transform MainCam;
 
+#if UNITY_EDITOR
+    [SerializeField] int selfDmg = 10;
+    [SerializeField] KeyCode damage = KeyCode.X;
+#endif
+
     void Start()
     {
         Health = 100;
@@ -24,6 +29,12 @@ public class SinglePlayer : Unit
 
     void Update()
     {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown("damage"))
+        {
+            Health -= selfDmg;
+        }
+#endif
         // При попадании raycast в обьект с теггом "Pickup" - обьект помечается как selected
         if (Physics.Raycast(MainCam.position, MainCam.forward, out Hit, 4f))
         {

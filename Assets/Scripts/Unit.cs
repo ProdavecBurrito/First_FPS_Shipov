@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : BaseObject, ISetDmg
+public class Unit : BaseObject, ISetDmg, IAidKit
 {
 
     [SerializeField] int _health;
@@ -24,6 +24,18 @@ public class Unit : BaseObject, ISetDmg
             if (tag != "Player")
             {
                 IsDead = true;
+            }
+        }
+    }
+
+    public void AddHeal(int heal)
+    {
+        if (_health < 100)
+        {
+            _health += heal;
+            if (_health > 100)
+            {
+                _health = 100;
             }
         }
     }

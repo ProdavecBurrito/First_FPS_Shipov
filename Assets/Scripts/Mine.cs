@@ -5,9 +5,14 @@ using UnityEngine;
 public class Mine : MonoBehaviour, IMine
 {
     int dmg;
-    float speed = 2;
+    float speed = 0.2f;
     float hight;
     float maxHight;
+
+    private void Awake()
+    {
+        
+    }
 
 
     public void DealDmg(int _dmg)
@@ -17,7 +22,7 @@ public class Mine : MonoBehaviour, IMine
 
     public void Jump(float _hight)
     {
-        hight = transform.position + Vector3.up;
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 }
 

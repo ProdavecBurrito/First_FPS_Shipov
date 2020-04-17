@@ -1,4 +1,4 @@
 ﻿public interface IAidKit
 {
-    void Heal();
+    void AddHeal(int heal);
 }
