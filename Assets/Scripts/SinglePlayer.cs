@@ -15,7 +15,7 @@ public class SinglePlayer : Unit
 
 #if UNITY_EDITOR
     [SerializeField] int selfDmg = 10;
-    [SerializeField] KeyCode damage = KeyCode.X;
+    [SerializeField] KeyCode damage = KeyCode.G;
 #endif
 
     void Start()

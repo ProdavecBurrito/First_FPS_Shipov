@@ -20,6 +20,7 @@ public class MedKit : MonoBehaviour
         if (obj != null)
         {
             obj.AddHeal(heal);
+            Destroy(gameObject);
         }
     }
 
