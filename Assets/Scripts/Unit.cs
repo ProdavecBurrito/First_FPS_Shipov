@@ -5,7 +5,7 @@ using UnityEngine;
 public class Unit : BaseObject, ISetDmg, IAidKit
 {
 
-    [SerializeField] int _health;
+    [Range(50, 150)][SerializeField] int _health;
     bool isDead;
 
     public int Health { get => _health; set => _health = value; }

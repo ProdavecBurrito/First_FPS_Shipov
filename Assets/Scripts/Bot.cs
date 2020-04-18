@@ -11,6 +11,14 @@ public class Bot : Unit
     Transform playerTransform;
     Transform target;
 
+    [Header("Настройка / Параметры оружия")]
+    [SerializeField] Transform fireStart;
+    [SerializeField] ParticleSystem muzzleFlash;
+    [SerializeField] GameObject hitParticle;
+    [Range(0, 100)][SerializeField] int ammo;
+    [Range(100, 1000)][SerializeField] float hitDistance;
+    [Range(5, 50)][SerializeField] int dmg;
+
     // Поля для проверки, на земле ли бот
     float groundCheckDistance = 0.1f;
     bool grounded;
@@ -19,24 +27,24 @@ public class Bot : Unit
     float fireDistance = 6f;
     float persuingDistance = 3f;
 
+    [Header("Зона патрулирования")]
     [SerializeField] List<Vector3> patrolPoints = new List<Vector3>();
     int wayCounter;
-    
     [SerializeField] GameObject mainWayPoint; // Я не уверен, что это верный выход из такой ситуации (когда есть несколько путей)
 
     float timeToWait = 3f;
     float timeOut;
 
+    [Header("Состояния")]
     [SerializeField] bool patrol;
     [SerializeField] bool shoot;
     [SerializeField] bool aggression;
     [SerializeField] bool findPlayer;
 
+    [Header("Настройки видимости бота")]
     [SerializeField] List<Transform> visibleTargets = new List<Transform>();
-
-    [SerializeField] float maxAngle = 30;
-    [SerializeField] float maxRadius = 20;
-
+    [Range(20, 90)][SerializeField] float maxAngle = 30;
+    [Range(5, 50)][SerializeField] float maxRadius = 20;
     [SerializeField] LayerMask targetMask;
     [SerializeField] LayerMask obstacleMask;
 
@@ -70,10 +78,14 @@ public class Bot : Unit
         agent.stoppingDistance = stopDistance;
 
         StartCoroutine("FindTarget", 0.1f);
+
+        fireStart = GameObject.FindGameObjectWithTag("GunT").transform;
+        muzzleFlash = GetComponentInChildren<ParticleSystem>();
+        hitParticle = Resources.Load<GameObject>("Preffabs/Flare");
     }
     void Update()
     {
-        if (visibleTargets.Count > 0)
+        if (visibleTargets.Count > 0) 
         {
             patrol = false;
             target = visibleTargets[0];
@@ -152,6 +164,7 @@ public class Bot : Unit
                     {
                         agent.ResetPath();
                         Anim.SetTrigger("Shoot");
+                        StartCoroutine(Shoot(hit));
                         shoot = true;
                     }
                     else
@@ -210,6 +223,18 @@ public class Bot : Unit
                 }
             }
         }
+    }
+
+    IEnumerator Shoot(RaycastHit targetHit)
+    {
+        yield return new WaitForSeconds(0.5f);
+        muzzleFlash.Play();
+        targetHit.collider.GetComponent<ISetDmg>().SetDmg(dmg);
+        GameObject temp = Instantiate(hitParticle, targetHit.point, Quaternion.identity);
+        temp.transform.parent = targetHit.transform;
+        Destroy(temp, 0.2f);
+        shoot = false;
+        Anim.SetTrigger("Shoot");
     }
 
     IEnumerator FindTarget(float deley)

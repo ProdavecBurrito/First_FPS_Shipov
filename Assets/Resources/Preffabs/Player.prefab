@@ -10061,6 +10061,8 @@ MonoBehaviour:
   _base: {fileID: 0}
   _selected: 0
   _tempGo: {fileID: 0}
+  selfDmg: 10
+  damage: 103
 --- !u!54 &6013099120239810215
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16681,7 +16683,7 @@ PrefabInstance:
     - target: {fileID: 3144264181294545156, guid: 47ef12807f4c5a04fa2a7efd5e6674a1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.032
+      value: -0.058
       objectReference: {fileID: 0}
     - target: {fileID: 3144264181294545156, guid: 47ef12807f4c5a04fa2a7efd5e6674a1,
         type: 3}
