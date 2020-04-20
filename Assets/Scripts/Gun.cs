@@ -10,6 +10,9 @@ public class Gun : BaseWeapon
     [SerializeField] float hitDistance;
     [SerializeField] int dmg;
     [SerializeField] bool pref;
+    [SerializeField] float meleeHitDistance;
+
+    [SerializeField] KeyCode melee = KeyCode.V;
 
     GameObject bullet;
     LineRenderer line;
@@ -45,7 +48,19 @@ public class Gun : BaseWeapon
     }
 
     void Update()
-    {
+    {   
+        if (Input.GetKeyDown(melee))
+        {
+            Anim.SetTrigger("MeleeHit");
+            RaycastHit hit;
+            Ray ray = new Ray(mCam.position, mCam.forward);
+            if (Physics.Raycast(ray, out hit, meleeHitDistance))
+            {
+                hit.collider.GetComponent<Rigidbody>().AddForce(0, 0, -3);
+                SetDmg(hit.collider.GetComponent<ISetDmg>());
+                CreatePartHit(hit);
+            }
+        }
         if (Input.GetButtonDown("Fire1"))
         {
             Fire();
