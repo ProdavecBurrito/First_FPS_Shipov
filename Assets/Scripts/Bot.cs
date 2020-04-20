@@ -17,6 +17,7 @@ public class Bot : Unit
     [SerializeField] GameObject hitParticle;
     [Range(0, 100)][SerializeField] int ammo;
     [Range(100, 1000)][SerializeField] float hitDistance;
+    [ContextMenuItem("Рандомное значение урона", nameof(RandomDmg))]
     [Range(5, 50)][SerializeField] int dmg;
 
     // Поля для проверки, на земле ли бот
@@ -43,7 +44,9 @@ public class Bot : Unit
 
     [Header("Настройки видимости бота")]
     [SerializeField] List<Transform> visibleTargets = new List<Transform>();
+    [ContextMenuItem("Рандомный угол обзора бота", nameof(RandomAngle))]
     [Range(20, 90)][SerializeField] float maxAngle = 30;
+    [ContextMenuItem("Рандомный радиус обзора бота", nameof(RandomRad))]
     [Range(5, 50)][SerializeField] float maxRadius = 20;
     [SerializeField] LayerMask targetMask;
     [SerializeField] LayerMask obstacleMask;
@@ -57,6 +60,31 @@ public class Bot : Unit
         Handles.color = new Color(1, 0.5f, 0.5f, 0.5f);
         Handles.DrawSolidArc(pos, Vector3.up, Vector3.forward, maxAngle, maxRadius);
         Handles.DrawSolidArc(pos, Vector3.up, Vector3.forward, -maxAngle, maxRadius);
+    }
+
+    void RandomAngle()
+    {
+        maxAngle = Random.Range(20, 90);
+    }
+
+    void RandomRad()
+    {
+        maxRadius = Random.Range(5, 50);
+    }
+
+    void RandomDmg()
+    {
+        dmg = Random.Range(5, 50);
+    }
+
+    [ContextMenu("Tools / Значения по умолчанию")]
+    void Default()
+    {
+        ammo = 30;
+        dmg = 20;
+        hitDistance = 500;
+        maxAngle = 30;
+        maxRadius = 20;
     }
 #endif
 

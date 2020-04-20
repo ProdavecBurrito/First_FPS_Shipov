@@ -5,6 +5,7 @@ using UnityEngine;
 public class MedKit : MonoBehaviour
 {
 
+    [Range(10, 50)]
     [SerializeField] int heal = 20;
 
     private void OnTriggerEnter(Collider other)

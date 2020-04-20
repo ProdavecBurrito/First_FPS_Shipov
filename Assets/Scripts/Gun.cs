@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Gun : BaseWeapon
 {
+    [Header("Настройка / Параметры оружия")]
     [SerializeField] int ammo;
     int maxMag;
     [SerializeField] float hitDistance;
@@ -16,6 +17,14 @@ public class Gun : BaseWeapon
     KeyCode reload = KeyCode.R;
 
     Transform mCam;
+
+    [ContextMenu("Tools / Значения по умолчанию")]
+    void Default()
+    {
+        ammo = 30;
+        dmg = 20;
+        hitDistance = 500;
+    }
 
     protected override void Awake()
     {

@@ -5157,6 +5157,18 @@ PrefabInstance:
       propertyPath: maxAngle
       value: 75
       objectReference: {fileID: 0}
+    - target: {fileID: 450052926, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: ammo
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 450052926, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: hitDistance
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 450052926, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: dmg
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 450052927, guid: f432554f564e69242897607d34218939, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -8011,7 +8023,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 450052926, guid: f432554f564e69242897607d34218939, type: 3}
       propertyPath: maxAngle
-      value: 75
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 450052926, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: maxRadius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 450052926, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: shoot
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450052926, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: ammo
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 450052926, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: hitDistance
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 450052926, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: dmg
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 450052927, guid: f432554f564e69242897607d34218939, type: 3}
       propertyPath: m_Enabled
@@ -15106,9 +15138,9 @@ Transform:
   m_LocalPosition: {x: 18.358753, y: 5.6959248, z: -30.074446}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1646254663}
   - {fileID: 1931806629}
   - {fileID: 1523508164}
+  - {fileID: 1646254663}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15416,7 +15448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 486830, guid: 4cdcc6c16809ba5439c8798d9bb925f4, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 486830, guid: 4cdcc6c16809ba5439c8798d9bb925f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -20901,7 +20933,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2025549056
 Transform:
   m_ObjectHideFlags: 0
@@ -22305,6 +22337,16 @@ PrefabInstance:
       propertyPath: gunSound.Array.data[1]
       value: 
       objectReference: {fileID: 8300000, guid: f6727888a13262d44acfcc216821d28b, type: 3}
+    - target: {fileID: 3162749417627600934, guid: 0873f3e1998cac2488b126a07687163c,
+        type: 3}
+      propertyPath: hitDistance
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3162749417627600934, guid: 0873f3e1998cac2488b126a07687163c,
+        type: 3}
+      propertyPath: dmg
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3353601960029592145, guid: 0873f3e1998cac2488b126a07687163c,
         type: 3}
       propertyPath: m_Layer

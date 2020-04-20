@@ -16,7 +16,7 @@ public class SinglePlayer : Unit
 
 #if UNITY_EDITOR
     [SerializeField] int selfDmg = 10;
-    [SerializeField] KeyCode damage = KeyCode.G;
+    [SerializeField] KeyCode damage = KeyCode.Tab;
 #endif
 
     void Start()
@@ -31,7 +31,7 @@ public class SinglePlayer : Unit
     void Update()
     {
 #if UNITY_EDITOR
-        if (Input.GetKeyDown("damage"))
+        if (Input.GetKeyDown(damage))
         {
             Health -= selfDmg;
         }
