@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MedKit : MonoBehaviour
 {
-
     [Range(10, 50)]
     [SerializeField] int heal = 20;
 
@@ -12,7 +11,11 @@ public class MedKit : MonoBehaviour
     {
         if (other.tag == "Player" || other.tag == "Enemy")
         {
-            HealUp(other.GetComponent<IAidKit>());
+            if (other.GetComponent<Unit>().Health != 100)
+            {
+                HealUp(other.GetComponent<IAidKit>());
+                Destroy(gameObject, 0.5f);
+            }
         }
     }
 

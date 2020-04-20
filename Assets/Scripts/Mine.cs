@@ -2,27 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mine : MonoBehaviour, IMine
+public class Mine : MonoBehaviour
 {
-    int dmg;
-    float speed = 0.2f;
-    float hight;
-    float maxHight;
+    [Header("Настройки мины")]
+    [SerializeField ] int dmg;
+    [SerializeField] ParticleSystem explosion;
+    [SerializeField] Animator animator;
 
-    private void Awake()
+     void Awake()
     {
-        
+        animator = GetComponent<Animator>();
+        explosion = GetComponent<ParticleSystem>();
     }
 
-
-    public void DealDmg(int _dmg)
+    private void OnTriggerEnter(Collider obj)
     {
-
+        if (obj.tag == "Player" || obj.tag == "Enemy")
+        {
+            animator.SetTrigger("Jump");
+            Invoke("Expl", 0.5f);
+            Destroy(gameObject, 0.7f);
+            obj.GetComponent<ISetDmg>().SetDmg(dmg);
+        }
     }
 
-    public void Jump(float _hight)
+    void Expl()
     {
-        transform.Translate(Vector3.up * speed * Time.deltaTime);
+        explosion.Play();
     }
 }
 

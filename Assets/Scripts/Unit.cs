@@ -32,7 +32,9 @@ public class Unit : BaseObject, ISetDmg, IAidKit
     {
         if (_health < 100)
         {
+
             _health += heal;
+            
             if (_health > 100)
             {
                 _health = 100;

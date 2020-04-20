@@ -14,6 +14,8 @@ public class SinglePlayer : Unit
     RaycastHit Hit;
     Transform MainCam;
 
+    [SerializeField] KeyCode melee = KeyCode.Q;
+
 #if UNITY_EDITOR
     [SerializeField] int selfDmg = 10;
     [SerializeField] KeyCode damage = KeyCode.Tab;
@@ -36,6 +38,11 @@ public class SinglePlayer : Unit
             Health -= selfDmg;
         }
 #endif
+        if (Input.GetKeyDown(melee))
+        {
+
+        }
+
         // При попадании raycast в обьект с теггом "Pickup" - обьект помечается как selected
         if (Physics.Raycast(MainCam.position, MainCam.forward, out Hit, 4f))
         {
