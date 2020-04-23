@@ -8,39 +8,39 @@ using UnityEngine.SceneManagement;
 using System.IO;
 
 [Serializable]
-public struct UserVector3
+public struct UserVector3Sing
 {
     public float X;
     public float Y;
     public float Z;
-     
-    public UserVector3(float _x, float _y, float _z)
+
+    public UserVector3Sing(float _x, float _y, float _z)
     {
         X = _x;
         Y = _y;
         Z = _z;
     }
 
-    public static implicit operator UserVector3(Vector3 val)
+    public static implicit operator UserVector3Sing(Vector3 val)
     {
-        return new UserVector3(val.x, val.y, val.z);
+        return new UserVector3Sing(val.x, val.y, val.z);
     }
 
-    public static implicit operator Vector3(UserVector3 val)
+    public static implicit operator Vector3(UserVector3Sing val)
     {
         return new Vector3(val.X, val.Y, val.Z);
     }
 }
 
 [Serializable]
-public struct UserQuartenion
+public struct UserQuartenionSing
 {
     public float X;
     public float Y;
     public float Z;
     public float W;
 
-    public UserQuartenion(float _x, float _y, float _z, float _w)
+    public UserQuartenionSing(float _x, float _y, float _z, float _w)
     {
         X = _x;
         Y = _y;
@@ -48,42 +48,45 @@ public struct UserQuartenion
         W = _w;
     }
 
-    public static implicit operator UserQuartenion(Quaternion val)
+    public static implicit operator UserQuartenionSing(Quaternion val)
     {
-        return new UserQuartenion(val.x, val.y, val.z, val.w);
+        return new UserQuartenionSing(val.x, val.y, val.z, val.w);
     }
 
-    public static implicit operator Quaternion(UserQuartenion val)
+    public static implicit operator Quaternion(UserQuartenionSing val)
     {
         return new Quaternion(val.X, val.Y, val.Z, val.W);
     }
 }
 
 [Serializable]
-public struct UserObject
+public struct UserObjectSing
 {
     public string name;
-    public UserVector3 position;
-    public UserVector3 scale;
-    public UserQuartenion rotation;
+    public UserVector3Sing position;
+    public UserVector3Sing scale;
+    public UserQuartenionSing rotation;
 }
 
-public class SaveObject
+public class SaveObjectSing
 {
     static XmlSerializer formater;
-    static string savingPath = Path.Combine(Application.dataPath, "XMLSave.xml");
+    static string savingPath = Path.Combine(Application.dataPath, "XMLSaveSing.xml");
 
-    static SaveObject()
+    static SaveObjectSing()
     {
         formater = new XmlSerializer(typeof(UserObject[]));
     }
 
-    [MenuItem("User Instruments / Save, Load Scene / Save Scene")]
-    public static void SaveScene()
+    [MenuItem("User Instruments / Save, Load Scene / Save Sing Object")]
+    public static void SaveObj()
     {
-        Scene tempScene = SceneManager.GetActiveScene();
+        GameObject tempObj = GameObject.FindObjectOfType<TracingWayPoints>().gameObject;
         List<GameObject> mainObj = new List<GameObject>();
-        tempScene.GetRootGameObjects(mainObj);
+        foreach (Transform item in tempObj.transform)
+        {
+            mainObj.Add(item.gameObject);
+        }
         List<UserObject> lvlObj = new List<UserObject>();
 
         foreach (var item in mainObj)
@@ -111,30 +114,31 @@ public class SaveObject
             Debug.Log("Нет пути");
         }
 
-        using(FileStream fileStream = new FileStream(savingPath, FileMode.Create))
+        using (FileStream fileStream = new FileStream(savingPath, FileMode.Create))
         {
             formater.Serialize(fileStream, lvlObj.ToArray());
         }
     }
 
-    [MenuItem("User Instruments / Save, Load Scene / Load Scene")]
-    public static void LoadScene()
+    [MenuItem("User Instruments / Save, Load Scene / Load Sing Object")]
+    public static void LoadObj()
     {
         UserObject[] res;
         using (FileStream fileStream = new FileStream(savingPath, FileMode.Open))
         {
-            res = (UserObject[]) formater.Deserialize(fileStream);
+            res = (UserObject[])formater.Deserialize(fileStream);
         }
+
+        var mainPref = new GameObject("WayPoints");
+        mainPref.AddComponent<TracingWayPoints>();
 
         foreach (var item in res)
         {
-            var pref = Resources.Load<GameObject>("Preffabs/LvlObjects/" + item.name);
-            if (pref)
-            {
-                GameObject temp = MonoBehaviour.Instantiate(pref, item.position, item.rotation);
-                temp.transform.localScale = item.scale;
-                temp.name = item.name;
-            }
+            var pref = new GameObject(item.name);
+            pref.transform.position = item.position;
+            pref.transform.localScale = item.scale;
+            pref.transform.rotation = item.rotation;
+            pref.transform.parent = mainPref.transform;
         }
     }
 }
