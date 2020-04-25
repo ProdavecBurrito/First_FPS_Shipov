@@ -10,6 +10,7 @@ TagManager:
   - Cross
   - Enemy
   - Camera
+  - WayPoint
   layers:
   - Default
   - TransparentFX

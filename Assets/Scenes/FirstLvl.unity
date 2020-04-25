@@ -358,6 +358,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WayPoints
       objectReference: {fileID: 0}
+    - target: {fileID: 1018907650511691103, guid: 3a24ee6d1d829f64b8a2ad03287cea7b,
+        type: 3}
+      propertyPath: m_TagString
+      value: WayPoint
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a24ee6d1d829f64b8a2ad03287cea7b, type: 3}
 --- !u!1001 &2329192594865931977
@@ -589,6 +594,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WayPoints 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5091384632688368529, guid: 8f058d3164ac3e742bac48eb71743d9a,
+        type: 3}
+      propertyPath: m_TagString
+      value: WayPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5091384632688368623, guid: 8f058d3164ac3e742bac48eb71743d9a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -742,6 +752,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1761344945, guid: 9052a66693480024eae19fdf931df58d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6553404872422096008, guid: 9052a66693480024eae19fdf931df58d,
         type: 3}
       propertyPath: m_LocalPosition.x

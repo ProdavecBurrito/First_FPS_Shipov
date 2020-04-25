@@ -35,25 +35,29 @@ public class SinglePlayer : Unit
 
     void Start()
     {
-        //data = ;
+        data = new XMLData();
         Health = 100;
 
         _outLine = Shader.Find("Toon/Lit Outline");
         _base = Shader.Find("Legacy Shaders/Bumped Specular");
         MainCam = MainCamera.transform;
 
-        PlayerData playerData = new PlayerData
+        PlayerData singlePlayer = new PlayerData
         {
             _Name = name,
             _Health = Health,
             _Dead = IsDead
         };
 
-        //Save
-        //Load
-    }
+        data.Save(singlePlayer);
+        PlayerData newPlayer = data.Load();
 
-    void Update()
+#if UNITY_EDITOR
+        Debug.Log(newPlayer);
+#endif
+}
+
+void Update()
     {
 #if UNITY_EDITOR
         if (Input.GetKeyDown(damage))
