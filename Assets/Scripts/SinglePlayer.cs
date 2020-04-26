@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 public struct PlayerData
 {
@@ -26,7 +27,9 @@ public class SinglePlayer : Unit
     RaycastHit Hit;
     Transform MainCam;
 
-    ISaveData data;
+    ISaveData xmlData;
+    ISaveData jsonData;
+    ISaveData streamData;
 
 #if UNITY_EDITOR
     [SerializeField] int selfDmg = 10;
@@ -35,7 +38,10 @@ public class SinglePlayer : Unit
 
     void Start()
     {
-        data = new XMLData();
+        xmlData = new XMLData();
+        jsonData = new JSONData();
+        streamData = new StreamData();
+
         Health = 100;
 
         _outLine = Shader.Find("Toon/Lit Outline");
@@ -49,13 +55,28 @@ public class SinglePlayer : Unit
             _Dead = IsDead
         };
 
-        data.Save(singlePlayer);
-        PlayerData newPlayer = data.Load();
+        PlayerPrefs.SetString("Name", singlePlayer._Name);
+        PlayerPrefs.SetInt("Health", singlePlayer._Health);
+        PlayerPrefs.SetInt("Dead", Convert.ToInt32(singlePlayer._Dead));
+        PlayerPrefs.Save();
+
+        xmlData.Save(singlePlayer);
+        jsonData.Save(singlePlayer);
+        streamData.Save(singlePlayer);
+
+        PlayerData xmlNewPlayer = xmlData.Load();
+        PlayerData jsonNewPlayer = jsonData.Load();
+        PlayerData streemNewPlayer = streamData.Load();
 
 #if UNITY_EDITOR
-        Debug.Log(newPlayer);
+        Debug.Log(xmlNewPlayer);
+        Debug.Log(jsonNewPlayer);
+        Debug.Log(streemNewPlayer);
+        Debug.Log(PlayerPrefs.GetString("Name"));
+        Debug.Log(PlayerPrefs.GetInt("Health"));
+        Debug.Log(PlayerPrefs.GetInt("Dead"));
 #endif
-}
+    }
 
 void Update()
     {
