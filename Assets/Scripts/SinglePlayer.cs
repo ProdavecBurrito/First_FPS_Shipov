@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEngine;
 using System;
+using Photon.Pun;
+using UnityStandardAssets.Characters.FirstPerson;
+
 
 public struct PlayerData
 {
@@ -31,6 +31,9 @@ public class SinglePlayer : Unit
     ISaveData jsonData;
     ISaveData streamData;
 
+    FirstPersonController controller;
+    PhotonView photon;
+
 #if UNITY_EDITOR
     [SerializeField] int selfDmg = 10;
     [SerializeField] KeyCode damage = KeyCode.Tab;
@@ -38,6 +41,9 @@ public class SinglePlayer : Unit
 
     void Start()
     {
+        controller = GetComponent<FirstPersonController>();
+        photon = GetComponent<PhotonView>();
+        
         xmlData = new XMLData();
         jsonData = new JSONData();
         streamData = new StreamData();
@@ -75,6 +81,15 @@ public class SinglePlayer : Unit
         Debug.Log(PlayerPrefs.GetString("Name"));
         Debug.Log(PlayerPrefs.GetInt("Health"));
         Debug.Log(PlayerPrefs.GetInt("Dead"));
+
+        if (!photon.IsMine)
+        {
+            controller.enabled = false;
+        }
+        else
+        {
+            controller.enabled = true;
+        }
 #endif
     }
 
